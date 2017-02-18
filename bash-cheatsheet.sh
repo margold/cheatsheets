@@ -16,5 +16,6 @@ cat test.txt | tr -d [:space:]
 
 # strace (trace child processes too!)
 # -v (verbose), -f (trace forked processes), -e trace=network (trace only network syscalls)
-strace -v -f -e trace=network $command &> strace.out
-cat strace.out | grep 'connect(' | grep INET
+export strace-out=strace.out
+strace -v -f -e trace=network $command &> $strace-out
+cat $strace-out | grep 'connect(' | grep INET
