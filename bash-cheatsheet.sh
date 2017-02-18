@@ -11,6 +11,12 @@ tr '\n' ' ' < test.txt
 # delete all whitespace characters
 cat test.txt | tr -d [:space:]
 
+# if grep considers a file to be binary
+# remove NUL character
+cat file | tr -d '\000' | yourgrep
+# or use -a (force grep to treat files as ASCII text)
+grep -a
+
 
 ### what host/port $command connects to
 
@@ -41,3 +47,11 @@ netstat --inet --inet6 -np
 # -t (tcp), -u (udp), -n (numeric), -a (both listening and non-listening sockets)
 # -p (pid and name of program to which the socket belongs), -l (show only listening sockets)
 netstat -tunapl
+
+
+### disk and file issues
+du -hs
+du -h --max-depth=1
+
+# show last modified date of file
+stat $filename
