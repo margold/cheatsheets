@@ -10,3 +10,11 @@ tr '\n' ' ' < test.txt
 
 # delete all whitespace characters
 cat test.txt | tr -d [:space:]
+
+
+### what host/port $command connects to
+
+# strace (trace child processes too!)
+# -v (verbose), -f (trace forked processes), -e trace=network (trace only network syscalls)
+strace -v -f -e trace=network $command &> strace.out
+cat strace.out | grep 'connect(' | grep INET
