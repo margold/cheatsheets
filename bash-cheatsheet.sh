@@ -1,5 +1,6 @@
 ### tr reads from stdin
-### and replaces
+### and replaces character-by-character
+### unlike sed which operates on strings
 
 # delete newlines
 cat test.txt | tr -d '\n'
