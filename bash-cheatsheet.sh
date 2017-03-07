@@ -55,3 +55,8 @@ du -h --max-depth=1
 
 # show last modified date of file
 stat $filename
+
+### firewalls
+iptables -S
+iptables -L -n -v  # won't show which interface the rules are configured for without -v
+iptables -F  # flush filter table only
