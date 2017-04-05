@@ -27,11 +27,30 @@ strace -v -f -e trace=network $command &> $strace-out
 cat $strace-out | grep 'connect(' | grep INET
 
 
-### debug connection issues
-curl -v $URL
+### debug connection and SSL issues
 
-# if curl fails with SSL problem
-openssl s_client -msg -connect $HOST:$PORT
+# - does curl connect over http or https?
+curl -v http://$host:$port
+curl -v https://$host:$port
+
+# does wget work for the same URL?
+# if yes, upgrading curl and nss can help
+wget http://$host:$port
+wget https://$host:$port
+
+# what certs does curl use?
+curl -v https://$host:$port
+
+# give certs to curl explictly
+curl --cacert $ca.pem --key $key.pem --cert $cert.pem -v https://$host:$port
+
+# what certs does the server we're trying to connect to send?
+openssl s_client -showcerts -connect $HOST:$PORT
+
+# inspect a cert (eg. check expiry date, check date on server, and check whether NTP is working correctly)
+openssl x509 -in $cert.pem -text | grep 'After'
+date
+ntpstat
 
 # -i (select all internet network files), -n (don't convert network numbers to names)
 lsof -i -n
